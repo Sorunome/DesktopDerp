@@ -96,10 +96,14 @@ public:
 		}
 		posx+=movex*speed;
 		posy+=movey*speed;
-		if (posx<0)
+		if (posx<0) {
 			posx=0;
-		if (posy<0)
+			movex=0;
+		}
+		if (posy<0) {
 			posy=0;
+			movey=0;
+		}
 		
 	}
 
@@ -147,6 +151,7 @@ void MainWindow::loop() {
 	derpy.move();
 	if (derpy.changeGif()) {
 		derpy.doChangeGif();
+		ui->ponyLabel->movie()->stop();
 		QMovie *movie = new QMovie(derpy.getFileName());
 		ui->ponyLabel->setMovie(movie);
 		movie->start();
