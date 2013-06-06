@@ -7,7 +7,8 @@
 #include <QTimer>
 #include <QList>
 #include <QTextStream>
-#include <QMenu>
+#include <QImage>
+#include <QDesktopWidget>
 
 class derp {
 public:
@@ -68,9 +69,6 @@ public:
 		oldmovey = movey;
 	}
 	QString getFileName() {
-		QTextStream out(stdout);
-		out << "derpy_"+action+"_"+position+".gif";
-		
 		return "derpy_"+action+"_"+position+".gif";
 	}
 	void move() {
@@ -105,6 +103,20 @@ public:
 			movey=0;
 		}
 		
+		QDesktopWidget *desk = new QDesktopWidget;
+		if (desk->width()-width<posx) {
+			posx = desk->width()-width;
+			movex=0;
+		}
+		if (desk->height()-height<posy) {
+			posy = desk->height()-height;
+			movey=0;
+		}
+		
+	}
+	void setDimentions(int newWidth,int newHeight) {
+		width = newWidth;
+		height = newHeight;
 	}
 
 private:
@@ -140,18 +152,20 @@ MainWindow::MainWindow(QWidget *parent) :
 }
 
 void MainWindow::resizeWindow() {
-	int height = ui->ponyLabel->movie()->scaledSize().height();
-	int width = ui->ponyLabel->movie()->scaledSize().width();
-	ui->centralWidget->setMinimumSize(100,100);
-	ui->centralWidget->setMaximumSize(100,100);
-	ui->ponyLabel->setMinimumSize(100,100);
-	ui->ponyLabel->setMaximumSize(100,100);
+	QImage *img = new QImage(derpy.getFileName());
+	
+	ui->centralWidget->setMinimumSize(img->width(),img->height());
+	ui->centralWidget->setMaximumSize(img->width(),img->height());
+	ui->ponyLabel->setMinimumSize(img->width(),img->height());
+	ui->ponyLabel->setMaximumSize(img->width(),img->height());
+	derpy.setDimentions(img->width(),img->height());
 }
 void MainWindow::loop() {
 	derpy.move();
 	if (derpy.changeGif()) {
 		derpy.doChangeGif();
 		ui->ponyLabel->movie()->stop();
+		
 		QMovie *movie = new QMovie(derpy.getFileName());
 		ui->ponyLabel->setMovie(movie);
 		movie->start();
