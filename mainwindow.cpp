@@ -69,6 +69,8 @@ public:
 		oldmovey = movey;
 	}
 	QString getFileName() {
+		QTextStream out(stdout);
+		out << "derpy_"+action+"_"+position+".gif\n";
 		return "derpy_"+action+"_"+position+".gif";
 	}
 	void move() {
@@ -112,6 +114,7 @@ public:
 			posy = desk->height()-height;
 			movey=0;
 		}
+		delete desk;
 		
 	}
 	void setDimentions(int newWidth,int newHeight) {
