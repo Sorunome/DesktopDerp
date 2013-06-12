@@ -26,24 +26,9 @@ public:
 		height=100;
 		width=100;
 		speed=1;
-		possibleMultiMoveActions.append("fly");
-		possibleMultiMoveActions.append("fly");
-		possibleMultiMoveActions.append("flyupsidedown");
-		possibleMoveActions.append("fly");
-		possibleMoveActions.append("fly");
-		possibleMoveActions.append("flyupsidedown");
-		possibleMoveActions.append("walking");
-		possibleMoveActions.append("walking");
-		possibleMoveActions.append("walking_wing");
-		possibleMoveActions.append("walking_wing");
-		possibleStandActions.append("hover");
-		possibleStandActions.append("hover");
-		possibleStandActions.append("hoverupsidedown");
-		possibleStandActions.append("sleep");
-		possibleStandActions.append("stand");
-		possibleStandActions.append("stand");
-		possibleStandActions.append("stand_wing");
-		possibleStandActions.append("stand_wing");
+		possibleMultiMoveActions << "fly" << "fly" << "flyupsidedown";
+		possibleMoveActions << "fly" << "fly" << "flyupsidedown" << "walking" << "walking" << "walking_wing" << "walking_wing";
+		possibleStandActions << "hover" << "hover" << "hoverupsidedown" << "sleep" << "stand" << "stand" << "stand_wing" << "stand_wing";
 	}
 	bool changeGif() {
 		
@@ -167,11 +152,14 @@ void MainWindow::loop() {
 	derpy.move();
 	if (derpy.changeGif()) {
 		derpy.doChangeGif();
-		ui->ponyLabel->movie()->stop();
+		//ui->ponyLabel->movie()->stop();
 		
-		QMovie *movie = new QMovie(derpy.getFileName());
-		ui->ponyLabel->setMovie(movie);
-		movie->start();
+		//QMovie *movie = new QMovie(derpy.getFileName());
+		//ui->ponyLabel->setMovie(movie);
+		//movie->start();
+		ui->ponyLabel->movie()->stop();
+		ui->ponyLabel->movie()->setFileName(derpy.getFileName());
+		ui->ponyLabel->movie()->start();
 	}
 	move(QPoint(derpy.posx,derpy.posy));
 }
