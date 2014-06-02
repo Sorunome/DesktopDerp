@@ -55,8 +55,9 @@ public:
 	}
 	QString getFileName() {
 		QTextStream out(stdout);
-		out << "derpy_"+action+"_"+position+".gif\n";
-		return "derpy_"+action+"_"+position+".gif";
+		QString file = QCoreApplication::applicationDirPath() + "/derpy_" + action + "_" + position + ".gif";
+		out << file << "\n";
+		return file;
 	}
 	void move() {
 		if (qrand()%300==0) {
